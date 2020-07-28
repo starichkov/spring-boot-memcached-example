@@ -29,8 +29,9 @@ public class MemcachedConfig extends CachingConfigurerSupport {
         if (client == null) {
             return null;
         }
-        Cache cache = memcachedCache(client);
-        return new MemcachedCacheManager(cache);
+        Cache booksByIdCache = new BooksIdCache(client);
+        Cache booksByIsbnCache = new BooksIsbnCache(client);
+        return new MemcachedCacheManager(booksByIdCache, booksByIsbnCache);
     }
 
     @Value("${memcached.host}")
@@ -46,9 +47,5 @@ public class MemcachedConfig extends CachingConfigurerSupport {
             log.error(e.getMessage(), e);
             return null;
         }
-    }
-
-    private Cache memcachedCache(MemcachedClient memcachedClient) {
-        return new MemcachedCache(memcachedClient);
     }
 }

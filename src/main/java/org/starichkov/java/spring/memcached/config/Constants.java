@@ -6,7 +6,8 @@ package org.starichkov.java.spring.memcached.config;
  */
 public final class Constants {
 
-    public static final String CACHE_NAME = "books";
+    public static final String CACHE_BOOKS_ID = "books_id";
+    public static final String CACHE_BOOKS_ISBN = "books_isbn";
 
     private Constants() {
     }

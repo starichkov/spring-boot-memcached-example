@@ -3,8 +3,8 @@ package org.starichkov.java.spring.memcached.config;
 import org.springframework.cache.Cache;
 import org.springframework.cache.support.AbstractCacheManager;
 
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 /**
  * @author Vadim Starichkov
@@ -12,14 +12,14 @@ import java.util.Collections;
  */
 public class MemcachedCacheManager extends AbstractCacheManager {
 
-    private final Cache memcachedCache;
+    private final Cache[] caches;
 
-    public MemcachedCacheManager(Cache memcachedCache) {
-        this.memcachedCache = memcachedCache;
+    public MemcachedCacheManager(Cache... caches) {
+        this.caches = caches;
     }
 
     @Override
     protected Collection<? extends Cache> loadCaches() {
-        return Collections.singleton(memcachedCache);
+        return Arrays.asList(caches);
     }
 }

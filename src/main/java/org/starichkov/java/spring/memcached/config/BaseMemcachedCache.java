@@ -12,17 +12,12 @@ import java.util.concurrent.Callable;
  * @since 20.07.2020 12:06
  */
 @Slf4j
-public class MemcachedCache implements Cache {
+abstract class BaseMemcachedCache implements Cache {
 
     private final MemcachedClient client;
 
-    public MemcachedCache(MemcachedClient client) {
+    public BaseMemcachedCache(MemcachedClient client) {
         this.client = client;
-    }
-
-    @Override
-    public String getName() {
-        return Constants.CACHE_NAME;
     }
 
     @Override
