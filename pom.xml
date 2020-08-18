@@ -5,14 +5,14 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.1.RELEASE</version>
+        <version>2.3.3.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.starichkov.java.spring</groupId>
-    <artifactId>spring-boot-redis-example</artifactId>
+    <artifactId>spring-boot-memcached-example</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-boot-redis-example</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Demo project for Spring Boot with caching using AWS ElastiCache Memcached</description>
 
     <properties>
         <java.version>11</java.version>
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>elasticache-java-cluster-client</artifactId>
-            <version>1.1.1</version>
+            <version>1.1.2</version>
         </dependency>
 
         <dependency>
