@@ -12,15 +12,15 @@ import javax.persistence.Table;
 
 /**
  * @author Vadim Starichkov
- * @since 16.07.2020 15:11
+ * @since 07.08.2020 15:57
  */
 @Entity
-@Table(name = "books", schema = "book_store")
+@Table(name = "magazines", schema = "book_store")
 @Getter
 @Setter
-public class Book {
+public class Magazine {
 
-    public Book() {
+    public Magazine() {
     }
 
     @Id
@@ -28,12 +28,9 @@ public class Book {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "author")
-    private String author;
-
     @Column(name = "title")
     private String title;
 
-    @Column(name = "isbn")
-    private String isbn;
+    @Column(name = "issue")
+    private Integer issue;
 }

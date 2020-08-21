@@ -2,50 +2,39 @@ package org.starichkov.java.spring.memcached.config;
 
 import lombok.extern.slf4j.Slf4j;
 import net.spy.memcached.MemcachedClient;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.Cache;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
-
-import java.io.IOException;
-import java.net.InetSocketAddress;
 
 /**
  * @author Vadim Starichkov
  * @since 20.07.2020 11:40
  */
 @Configuration
+@Import(MemcachedClientConfig.class)
 @Profile("!test")
 @Slf4j
 public class MemcachedConfig extends CachingConfigurerSupport {
 
-    @Bean
-    @Override
-    public CacheManager cacheManager() {
-        MemcachedClient client = memcachedClient();
-        if (client == null) {
-            return null;
-        }
-        Cache booksByIdCache = new BooksIdCache(client);
-        Cache booksByIsbnCache = new BooksIsbnCache(client);
-        return new MemcachedCacheManager(booksByIdCache, booksByIsbnCache);
+    private final MemcachedClient memcachedClient;
+
+    @Autowired
+    public MemcachedConfig(MemcachedClient memcachedClient) {
+        this.memcachedClient = memcachedClient;
     }
 
-    @Value("${memcached.host}")
-    private String host;
+    @Bean("cacheManager")
+    @Override
+    public CacheManager cacheManager() {
+        return new MemcachedCacheManager(memcachedClient, Constants.CACHE_BOOKS_ID, Constants.CACHE_BOOKS_ISBN);
+    }
 
-    @Value("${memcached.port}")
-    private Integer port;
-
-    private MemcachedClient memcachedClient() {
-        try {
-            return new MemcachedClient(new InetSocketAddress(host, port));
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
-            return null;
-        }
+    @Bean("cacheManagerMgz")
+    public CacheManager cacheManagerMgz() {
+        return new MemcachedCacheManager(memcachedClient, Constants.CACHE_MAGAZINES_ID);
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.starichkov.java.spring.memcached.domain.entity.Book;
+import org.starichkov.java.spring.memcached.domain.dto.BookDto;
 import org.starichkov.java.spring.memcached.domain.service.BookService;
 
 /**
@@ -28,18 +28,18 @@ public class BooksController {
     }
 
     @GetMapping("/{id}")
-    public Book getBook(@PathVariable("id") Long id) {
+    public BookDto getBook(@PathVariable("id") Long id) {
         return service.get(id);
     }
 
     @GetMapping(path = "/isbn", params = {"isbn"})
-    public Book getBook(@RequestParam("isbn") String isbn) {
+    public BookDto getBook(@RequestParam("isbn") String isbn) {
         return service.getByISBN(isbn);
     }
 
     @PostMapping(params = {"title", "author", "isbn"})
-    public Book createBook(@RequestParam("title") String title, @RequestParam("author") String author, @RequestParam("isbn") String isbn) {
-        Book book = new Book();
+    public BookDto createBook(@RequestParam("title") String title, @RequestParam("author") String author, @RequestParam("isbn") String isbn) {
+        BookDto book = new BookDto();
         book.setTitle(title);
         book.setAuthor(author);
         book.setIsbn(isbn);
@@ -47,8 +47,8 @@ public class BooksController {
     }
 
     @PatchMapping(path = "/{id}", params = {"title"})
-    public Book updateBook(@PathVariable("id") Long id, @RequestParam("title") String title) {
-        Book book = service.get(id);
+    public BookDto updateBook(@PathVariable("id") Long id, @RequestParam("title") String title) {
+        BookDto book = service.get(id);
         book.setTitle(title);
         return service.update(book);
     }

@@ -12,7 +12,7 @@ import java.util.concurrent.Callable;
  * @since 20.07.2020 12:06
  */
 @Slf4j
-abstract class BaseMemcachedCache implements Cache {
+public abstract class BaseMemcachedCache implements Cache {
 
     private final MemcachedClient client;
 
@@ -26,21 +26,22 @@ abstract class BaseMemcachedCache implements Cache {
     }
 
     @Override
-    public ValueWrapper get(Object key) {
+    public ValueWrapper get(Object baseKey) {
         Object value = null;
+        String key = getKey(baseKey);
 
         try {
-            value = client.get(key.toString());
+            value = client.get(key);
         } catch (final Exception e) {
             log.warn(e.getMessage());
         }
 
         if (value == null) {
-            log.info("cache miss for key: " + key.toString());
+            log.info("Cache miss for key: '{}'", key);
             return null;
         }
 
-        log.info("cache hit for key: " + key.toString());
+        log.info("Cache hit for key: '{}'", key);
 
         return new SimpleValueWrapper(value);
     }
@@ -58,23 +59,28 @@ abstract class BaseMemcachedCache implements Cache {
     }
 
     @Override
-    public void put(Object key, Object value) {
+    public void put(Object baseKey, Object value) {
         if (value != null) {
-            client.set(key.toString(), 100500, value);
-            log.info("cache put for key: " + key.toString());
+            String key = getKey(baseKey);
+            client.set(key, 100500, value);
+            log.info("Cache put for key: '{}'", key);
         }
     }
 
     @Override
-    public void evict(Object key) {
-        client.delete(key.toString());
-        log.info("cache delete for key: " + key.toString());
-
+    public void evict(Object baseKey) {
+        String key = getKey(baseKey);
+        client.delete(key);
+        log.info("Cache delete for key: '{}'", key);
     }
 
     @Override
     public void clear() {
         client.flush();
-        log.info("cache clear completed");
+        log.info("Cache clear completed");
+    }
+
+    private String getKey(Object key) {
+        return String.format("%s:%s", getName(), key);
     }
 }
