@@ -31,7 +31,7 @@ public class MagazineService {
         this.mapper = MagazineMapper.INSTANCE;
     }
 
-    @Cacheable(cacheNames = Constants.CACHE_MAGAZINES_ID, key = "#id", unless = "#result == null", cacheManager = "cacheManagerMgz")
+    @Cacheable(cacheNames = Constants.CACHE_MAGAZINES_ID, key = "#id", unless = "#result == null")
     public MagazineDto get(Long id) {
         return mapper.map(repository.getOne(id));
     }
@@ -41,7 +41,7 @@ public class MagazineService {
         return mapper.map(repository.save(magazine));
     }
 
-    @CachePut(cacheNames = Constants.CACHE_MAGAZINES_ID, key = "#magazine.id", unless = "#result == null", cacheManager = "cacheManagerMgz")
+    @CachePut(cacheNames = Constants.CACHE_MAGAZINES_ID, key = "#magazine.id", unless = "#result == null")
     public MagazineDto update(MagazineDto magazine) {
         Magazine entity = repository.findById(magazine.getId())
                 .orElseGet(() -> {
