@@ -1,4 +1,4 @@
-package org.starichkov.java.spring.memcached.redis;
+package org.starichkov.java.spring.memcached;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
