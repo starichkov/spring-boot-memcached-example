@@ -11,7 +11,7 @@
     <groupId>org.starichkov.java.spring</groupId>
     <artifactId>spring-boot-memcached-example</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-boot-redis-example</name>
+    <name>spring-boot-memcached-example</name>
     <description>Demo project for Spring Boot with caching using AWS ElastiCache Memcached</description>
 
     <properties>
